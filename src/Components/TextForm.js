@@ -21,6 +21,14 @@ const clearText = () => {
   setText(newText);
   props.showAlert('success','Textarea is Cleared');
 };
+const copyText = () => {
+  // console.log("button is clicked" + text);
+  let text = document.getElementById("myBox");
+  text.select();
+  text.setSelectionRange(0, 9999);
+  navigator.clipboard.writeText(text.value);
+  props.showAlert('success','Copied to Clipboard');
+};
 const reverseText = () => {
   // console.log("button is clicked" + text);
   let element;
@@ -70,10 +78,11 @@ const reverseText = () => {
     {/* style={props.myStyle} paste above */}
   </div>
 </form>
-<button className={`btn btn-${props.mode!=="light" ?`${props.mode} text-light border font-weight-bold`:"primary"} mx-1`} onClick={handleUpClick}>Change To Uppercase</button>
-<button className={`btn btn-${props.mode!=="light" ?`${props.mode} text-light border font-weight-bold`:"primary"} mx-1`} onClick={handleLoClick}>Change To Lowercase</button>
-<button className={`btn btn-${props.mode!=="light" ?`${props.mode} text-light border font-weight-bold`:"primary"} mx-1`} onClick={clearText}>Clear</button>
-<button className={`btn btn-${props.mode!=="light" ?`${props.mode} text-light border font-weight-bold`:"primary"} mx-1`} onClick={reverseText}>Reverse</button>
+<button disabled={text.length===0} className={`btn btn-${props.mode!=="light" ?`${props.mode} text-light border font-weight-bold`:"primary"} mx-1`} onClick={handleUpClick}>Change To Uppercase</button>
+<button disabled={text.length===0} className={`btn btn-${props.mode!=="light" ?`${props.mode} text-light border font-weight-bold`:"primary"} mx-1`} onClick={handleLoClick}>Change To Lowercase</button>
+<button disabled={text.length===0} className={`btn btn-${props.mode!=="light" ?`${props.mode} text-light border font-weight-bold`:"primary"} mx-1`} onClick={copyText}>Copy Text</button>
+<button disabled={text.length===0} className={`btn btn-${props.mode!=="light" ?`${props.mode} text-light border font-weight-bold`:"primary"} mx-1`} onClick={clearText}>Clear</button>
+<button disabled={text.length===0} className={`btn btn-${props.mode!=="light" ?`${props.mode} text-light border font-weight-bold`:"primary"} mx-1`} onClick={reverseText}>Reverse</button>
     </div>
     <div className={`container ${props.mode!=="light"?`${props.mode}`:"dark"} ${props.mode!=="light"?"text-light":"text-dark"}`}>
       {/* style={props.myStyle} paste above */}
@@ -81,7 +90,7 @@ const reverseText = () => {
        <p>Your entered letters are {text.length} and {text.split(" ").filter((element)=>{return element.length!==0}).length} Words</p>
        <p>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} Minutes to read</p>
        <h2 className="my-2">Perview</h2>
-       <p>{text}</p>
+       <p>{text.length>0?text:"Nothing to preview"}</p>
     </div>
     </>
 }
